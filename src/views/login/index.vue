@@ -77,6 +77,7 @@ export default {
           this.$axios
             .post("/mp/v1_0/authorizations", this.ruleForm)
             .then(bd => {
+              window.localStorage.setItem('userInfo',JSON.stringify(bd.data.data))
               this.$message.success("登录成功！");
               this.$router.push("/home");
             })
@@ -92,12 +93,12 @@ export default {
     },
     getCode() {
       this.isDisabled = true;
-      let sec = 5;
+      let sec = 60;
       let timerId = setInterval(() => {
         sec--;
         this.codeText = `${sec}秒后可再获取`;
 
-        if (sec == 3) {
+        if (sec == 58) {
           this.ruleForm.code = "246810";
         }
         if (sec == 0) {
