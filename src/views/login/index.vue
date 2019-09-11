@@ -15,7 +15,7 @@
               <el-input v-model="ruleForm.code"></el-input>
             </el-col>
             <el-col :span="10" :offset="2">
-              <el-button plain>获取验证码</el-button>
+              <el-button plain :disabled="isDisabled" @click="getCode">{{codeText}}</el-button>
             </el-col>
           </el-row>
         </el-form-item>
@@ -28,7 +28,12 @@
           </span>
         </el-form-item>
         <el-form-item>
-          <el-button class="loginBtn" type="primary" @click="submitForm('loginForm')">登录</el-button>
+          <el-button
+            class="loginBtn"
+            type="primary"
+            @click="submitForm('loginForm')"
+            :loading="isLoading"
+          >登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -40,10 +45,13 @@ export default {
   data() {
     return {
       ruleForm: {
-        mobile: "",
+        mobile: "18801185985",
         code: "",
         agree: false
       },
+      isLoading: false,
+      isDisabled: false,
+      codeText: "获取验证码",
       rules: {
         mobile: [
           { required: true, message: "请输入正确手机号", trigger: "blur" },
@@ -57,27 +65,47 @@ export default {
           { required: true, message: "请输入正确验证码", trigger: "blur" },
           { len: 6, message: "请输入正确验证码", trigger: "blur" }
         ],
-        agree: [{ pattern:/true/, message: "请勾选我同意", trigger: "click" }]
+        agree: [{ pattern: /true/, message: "请勾选我同意", trigger: "click" }]
       }
     };
   },
   methods: {
     submitForm(formName) {
+      this.isLoading = true;
       this.$refs[formName].validate(valid => {
         if (valid) {
-          //   alert("submit!");
-          this.$axios.post('/mp/v1_0/authorizations',this.ruleForm).then(
-              bd=>{
-
-                  this.$message.success("登录成功！");
-                  this.$router.push("/home")
-              }
-          ).catch()
+          this.$axios
+            .post("/mp/v1_0/authorizations", this.ruleForm)
+            .then(bd => {
+              this.$message.success("登录成功！");
+              this.$router.push("/home");
+            })
+            .catch(err => {
+              this.isLoading = false;
+              this.$message.warning("账号密码错误!");
+            });
         } else {
-          this.$message.warning('账号密码错误!')
+          this.isLoading = false;
           return false;
         }
       });
+    },
+    getCode() {
+      this.isDisabled = true;
+      let sec = 5;
+      let timerId = setInterval(() => {
+        sec--;
+        this.codeText = `${sec}秒后可再获取`;
+
+        if (sec == 3) {
+          this.ruleForm.code = "246810";
+        }
+        if (sec == 0) {
+          clearInterval(timerId);
+          this.isDisabled = false;
+          this.codeText = "获取验证码";
+        }
+      }, 1000);
     }
   }
 };
