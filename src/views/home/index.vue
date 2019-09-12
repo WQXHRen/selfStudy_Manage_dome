@@ -104,7 +104,7 @@ export default {
             window.localStorage.removeItem('userInfo')
             this.$router.push('/')
           } else if(command=="gitAddre"){
-            window.location.href="https://github.com/WQXHRen/toplineproject"
+            window.open("https://github.com/WQXHRen/toplineproject")
           }
       }
   }

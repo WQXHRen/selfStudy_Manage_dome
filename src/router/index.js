@@ -20,4 +20,19 @@ const router = new VueRouter({
     routes
 })
 
+router.beforeEach((to, from, next) => {
+    if (to.path=="/home") {
+        let userInfo = window.localStorage.getItem("userInfo")
+        if (userInfo) {
+            next()
+        }else {
+            Vue.prototype.$message.warning("请先登录!");
+            router.push('/')
+            
+        }
+    } else {
+        next();
+    }
+  })
+
 export default router
