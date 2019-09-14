@@ -22,6 +22,7 @@
               text-color="#fff"
               active-text-color="#ffd04b"
               :unique-opened="true"
+              @select="handleSelect"
             >
               <el-menu-item index="1">
                 <i class="el-icon-menu"></i>
@@ -36,7 +37,7 @@
                 <el-menu-item index="2-1">发布文章</el-menu-item>
                 <el-menu-item index="2-2">内容列表</el-menu-item>
                 <el-menu-item index="2-3">评论列表</el-menu-item>
-                <el-menu-item index="2-3">素材管理</el-menu-item>
+                <el-menu-item index="2-4">素材管理</el-menu-item>
               </el-submenu>
 
               <el-submenu index="3">
@@ -77,7 +78,9 @@
           </el-dropdown>
         </el-header>
         <!-- 右 内容 -->
-        <el-main class="rightMain">Main</el-main>
+        <el-main class="rightMain">
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -98,15 +101,20 @@ export default {
     this.userInfo.photo = userInfo.photo;
     this.userInfo.name = userInfo.name;
   },
-  methods:{
-       handleCommand(command) {
-          if (command=="exit") {
-            window.localStorage.removeItem('userInfo')
-            this.$router.push('/')
-          } else if(command=="gitAddre"){
-            window.open("https://github.com/WQXHRen/toplineproject")
-          }
+  methods: {
+    handleCommand(command) {
+      if (command == "exit") {
+        window.localStorage.removeItem("userInfo");
+        this.$router.push("/");
+      } else if (command == "gitAddre") {
+        window.open("https://github.com/WQXHRen/toplineproject");
       }
+    },
+    handleSelect(key, keyPath) {
+      if (key=="2-2") {
+          this.$router.push('/article')
+      }
+    }
   }
 };
 </script>
@@ -125,12 +133,11 @@ export default {
       }
     }
     .leftMain {
-      
       overflow: hidden;
       padding: 0;
       background-color: #323745;
       span {
-        color:#fff;
+        color: #fff;
       }
     }
   }

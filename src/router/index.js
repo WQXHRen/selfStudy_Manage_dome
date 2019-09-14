@@ -5,14 +5,23 @@ Vue.use(VueRouter)
 
 import login from "../views/login/index.vue";
 import home from "../views/home/index.vue";
+import article from "../views/home/article"
 
 const routes = [{
-        path: "/",
+        path: "/login",
         component: login
     },
     {
         path: "/home",
-        component: home
+        component: home,
+        children: [{
+            path:"/article",
+            component:article
+        }]
+    },
+    {
+        path:'',
+        redirect:'/login'
     }
 ]
 
@@ -21,18 +30,17 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.path=="/home") {
+    if (to.path == "/home") {
         let userInfo = window.localStorage.getItem("userInfo")
         if (userInfo) {
             next()
-        }else {
+        } else {
             Vue.prototype.$message.warning("请先登录!");
             router.push('/')
-            
         }
     } else {
         next();
     }
-  })
+})
 
 export default router
