@@ -16,13 +16,14 @@
           <!-- 左 内容 -->
           <el-main class="leftMain">
             <el-menu
+              :router="true"
               default-active="1"
               class="el-menu-vertical-demo"
               background-color="#353b4e"
               text-color="#fff"
               active-text-color="#ffd04b"
               :unique-opened="true"
-              @select="handleSelect"
+              
             >
               <el-menu-item index="1">
                 <i class="el-icon-menu"></i>
@@ -34,8 +35,8 @@
                   <i class="el-icon-document"></i>
                   <span>内容管理</span>
                 </template>
-                <el-menu-item index="2-1">发布文章</el-menu-item>
-                <el-menu-item index="2-2">内容列表</el-menu-item>
+                <el-menu-item index="/publish">发布文章</el-menu-item>
+                <el-menu-item index="/article">内容列表</el-menu-item>
                 <el-menu-item index="2-3">评论列表</el-menu-item>
                 <el-menu-item index="2-4">素材管理</el-menu-item>
               </el-submenu>
@@ -109,11 +110,6 @@ export default {
       } else if (command == "gitAddre") {
         window.open("https://github.com/WQXHRen/toplineproject");
       }
-    },
-    handleSelect(key, keyPath) {
-      if (key=="2-2") {
-          this.$router.push('/article')
-      }
     }
   }
 };
@@ -160,7 +156,8 @@ export default {
     }
   }
   .rightMain {
-    background-color: skyblue;
+    background-color: white;
+    padding: 0px;
   }
 }
 </style>

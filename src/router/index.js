@@ -3,9 +3,15 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+
 import login from "../views/login/index.vue";
 import home from "../views/home/index.vue";
-import article from "../views/home/article"
+import article from "../views/home/article";
+import publish from "../views/home/publish";
+
+
 
 const routes = [{
         path: "/login",
@@ -15,13 +21,16 @@ const routes = [{
         path: "/home",
         component: home,
         children: [{
-            path:"/article",
-            component:article
+            path: "/article",
+            component: article
+        }, {
+            path: "/publish",
+            component: publish
         }]
     },
     {
-        path:'',
-        redirect:'/login'
+        path: '',
+        redirect: '/login'
     }
 ]
 
@@ -30,6 +39,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+    NProgress.start()
     if (to.path == "/home") {
         let userInfo = window.localStorage.getItem("userInfo")
         if (userInfo) {
@@ -41,6 +51,12 @@ router.beforeEach((to, from, next) => {
     } else {
         next();
     }
+})
+
+router.afterEach((to, from) => {
+    setInterval(() => {
+        NProgress.done()
+    }, 1000);
 })
 
 export default router

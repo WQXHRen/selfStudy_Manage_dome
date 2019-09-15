@@ -11,17 +11,11 @@
             <el-radio :label="3">审核失败</el-radio>
           </el-radio-group>
         </el-form-item>
+
         <el-form-item label="频道">
-          <el-select v-model="form.channel_id" placeholder="请选择">
-            <el-option value label="全部资讯"></el-option>
-            <el-option
-              v-for="item in form.options"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            ></el-option>
-          </el-select>
+          <channel></channel>
         </el-form-item>
+        
         <el-form-item label="时间">
           <el-date-picker
             v-model="form.date"
@@ -41,7 +35,7 @@
       <p>共找到 {{total}} 条符合条件的内容</p>
     </div>
     <template>
-      <el-table :data="tableData" style="width: 100%">
+      <el-table :data="tableData" v-loading="loading" style="width: 100%">
         <el-table-column prop="cover" label="封面">
           <template slot-scope="scope">
             <img
@@ -72,6 +66,7 @@
     <div class="block">
       <span class="demonstration">显示总数</span>
       <el-pagination
+        :disabled="loading"
         background
         :page-size="10"
         layout="total, prev, pager, next"
@@ -84,20 +79,24 @@
 </template>
 
 <script>
+import channel from "@/components/channel";
 export default {
   name: "homeArticle",
+  components: {
+    channel
+  },
   data() {
     return {
+      loading: false,
       form: {
         status: "",
-        options: [],
         channel_id: "",
         date: []
       },
       tableData: [],
       total: 0,
       token: "",
-      currentPage: 1,
+      currentPage: 1
     };
   },
   methods: {
@@ -149,6 +148,7 @@ export default {
     },
     // 获取数据
     getData(page) {
+      this.loading = true;
       let userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
       this.token = userInfo.token;
       this.$axios
@@ -170,10 +170,9 @@ export default {
           // console.log(bd);
           this.tableData = bd.data.data.results;
           this.total = bd.data.data.total_count;
+          this.loading = false;
         })
-        .catch(err => {
-          // console.log(err);
-        });
+        .catch(err => {});
     }
   },
   filters: {
@@ -203,17 +202,6 @@ export default {
   },
   created() {
     this.getData();
-    // 获取频道信息
-    this.$axios
-      .get("/mp/v1_0/channels")
-      .then(bd => {
-        // console.log(bd);
-        this.form.options = bd.data.data.channels;
-        // console.log(this.form.options);
-      })
-      .catch(err => {
-        console.log(err);
-      });
   }
 };
 </script>
