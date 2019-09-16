@@ -13,7 +13,7 @@
         </el-form-item>
 
         <el-form-item label="频道">
-          <channel></channel>
+          <channel @change="form.channel_id=$event"></channel>
         </el-form-item>
         
         <el-form-item label="时间">

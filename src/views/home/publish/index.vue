@@ -15,7 +15,7 @@
 
       <!-- 频道 -->
       <el-form-item label="频道">
-        <channel></channel>
+        <channel @change="form.channel_id=$event"></channel>
       </el-form-item>
 
       <el-form-item>
@@ -43,7 +43,8 @@ export default {
   data() {
     return {
       form: {
-        title: ""
+        title: "",
+        channel_id:""
       }
     };
   }
