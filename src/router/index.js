@@ -12,6 +12,7 @@ import article from "../views/home/article";
 import publish from "../views/home/publish";
 import comment from "../views/home/comment";
 import setting from "../views/home/setting";
+import material from "../views/home/material";
 
 
 
@@ -39,6 +40,9 @@ const routes = [{
         },{
             path:'/setting',
             component:setting
+        },{
+            path:'/material',
+            component:material
         }]
     },
     {
