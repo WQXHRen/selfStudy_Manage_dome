@@ -41,6 +41,7 @@
         layout="prev, pager, next"
         :total="total"
         :disabled="loading"
+        :current-page.sync="currentPage"
       ></el-pagination>
     </div>
   </el-card>
@@ -53,7 +54,8 @@ export default {
       picType: "全部",
       picList: [],
       total: 1,
-      loading:false
+      loading:false,
+      currentPage:1
     };
   },
   created() {
@@ -66,7 +68,7 @@ export default {
           .then(res=>{
             //   console.log(res);
               this.$message.success('删除成功!')
-              this.getData()
+              this.getData(this.currentPage)
           })
           .catch(err=>{
               this.$message.error('删除失败!')

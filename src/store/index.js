@@ -11,10 +11,13 @@ const store = new Vuex.Store({
     },
     mutations: {
         changeUserInfo(state, obj) {
-            state.form.name = obj.name
+            if (obj.name) {
+                state.form.name = obj.name
+            }
             if (obj.photo) {
                 state.form.photo = obj.photo
             }
+
         }
     }
 })

@@ -99,8 +99,7 @@ export default {
   },
   created() {
     let userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
-    this.userInfo.photo = userInfo.photo;
-    this.userInfo.name = userInfo.name;
+    this.$store.commit('changeUserInfo',userInfo);
   },
   methods: {
     handleCommand(command) {

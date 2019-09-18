@@ -93,7 +93,7 @@ export default {
       this.$axios
         .patch("/mp/v1_0/user/profile", this.form)
         .then(res => {
-          //   window.console.log(res);
+            // window.console.log(res);
           this.$store.commit('changeUserInfo',res.data.data)
           this.$message.success("修改成功!");
         })
