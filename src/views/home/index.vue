@@ -37,7 +37,7 @@
                 </template>
                 <el-menu-item index="/publish">发布文章</el-menu-item>
                 <el-menu-item index="/article">内容列表</el-menu-item>
-                <el-menu-item index="2-3">评论列表</el-menu-item>
+                <el-menu-item index="/comment">评论列表</el-menu-item>
                 <el-menu-item index="2-4">素材管理</el-menu-item>
               </el-submenu>
 
@@ -51,7 +51,7 @@
                 <el-menu-item index="3-3">粉丝列表</el-menu-item>
               </el-submenu>
 
-              <el-menu-item index="4">
+              <el-menu-item index="/setting">
                 <i class="el-icon-setting"></i>
                 <span slot="title">账户信息</span>
               </el-menu-item>
@@ -67,8 +67,8 @@
 
           <el-dropdown trigger="click" @command="handleCommand">
             <span class="el-dropdown-link">
-              <img :src="userInfo.photo" alt id="photo" />
-              {{userInfo.name}}
+              <img :src="$store.state.form.photo" alt id="photo" />
+              {{$store.state.form.name}}
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">

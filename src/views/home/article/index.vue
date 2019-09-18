@@ -57,7 +57,7 @@
         <el-table-column prop="pubdate" label="日期" width="180"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" type="primary">修改</el-button>
+            <el-button size="mini" type="primary" @click="toEdit(scope.row)">修改</el-button>
             <el-button size="mini" type="danger" @click="toDel(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
@@ -95,7 +95,6 @@ export default {
       },
       tableData: [],
       total: 0,
-      token: "",
       currentPage: 1
     };
   },
@@ -109,11 +108,8 @@ export default {
       })
         .then(() => {
           this.$axios
-            .delete(`/mp/v1_0/articles/${id}`, {
-              headers: {
-                Authorization: "Bearer " + this.token
-              }
-            })
+            .delete(`/mp/v1_0/articles/${id}`
+            )
             .then(bd => {
               this.$message({
                 type: "success",
@@ -133,8 +129,6 @@ export default {
             type: "info",
             message: "已取消删除"
           });
-          console.log(`/mp/v1_0/articles/${id}`);
-          console.log(this.token);
         });
     },
 
@@ -150,12 +144,8 @@ export default {
     getData(page) {
       this.loading = true;
       let userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
-      this.token = userInfo.token;
       this.$axios
         .get("/mp/v1_0/articles", {
-          headers: {
-            Authorization: `Bearer ${userInfo.token}`
-          },
           params: {
             status: this.form.status == "" ? undefined : this.form.status,
             channel_id:
@@ -173,6 +163,10 @@ export default {
           this.loading = false;
         })
         .catch(err => {});
+    },
+    // 跳转到edit
+    toEdit(data){
+      this.$router.push('/edit/'+data.id)
     }
   },
   filters: {

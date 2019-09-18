@@ -77,7 +77,10 @@ export default {
           this.$axios
             .post("/mp/v1_0/authorizations", this.ruleForm)
             .then(bd => {
-              window.localStorage.setItem('userInfo',JSON.stringify(bd.data.data))
+              window.localStorage.setItem(
+                "userInfo",
+                JSON.stringify(bd.data.data)
+              );
               this.$message.success("登录成功！");
               this.$router.push("/home");
             })

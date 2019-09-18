@@ -10,6 +10,8 @@ import login from "../views/login/index.vue";
 import home from "../views/home/index.vue";
 import article from "../views/home/article";
 import publish from "../views/home/publish";
+import comment from "../views/home/comment";
+import setting from "../views/home/setting";
 
 
 
@@ -26,6 +28,17 @@ const routes = [{
         }, {
             path: "/publish",
             component: publish
+        },{
+            path:"/edit/:id",
+            component:publish,
+            name:"edit"
+        },{
+            path:'/comment',
+            component:comment
+            
+        },{
+            path:'/setting',
+            component:setting
         }]
     },
     {
@@ -40,17 +53,18 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     NProgress.start()
-    if (to.path == "/home") {
-        let userInfo = window.localStorage.getItem("userInfo")
-        if (userInfo) {
-            next()
-        } else {
-            Vue.prototype.$message.warning("请先登录!");
-            router.push('/')
-        }
-    } else {
+    // 简单判断登录
+    // if (to.path == "/home") {
+    //     let userInfo = window.localStorage.getItem("userInfo")
+    //     if (userInfo) {
+    //         next()
+    //     } else {
+    //         Vue.prototype.$message.warning("请先登录!");
+    //         router.push('/')
+    //     }
+    // } else {
         next();
-    }
+    // }
 })
 
 router.afterEach((to, from) => {

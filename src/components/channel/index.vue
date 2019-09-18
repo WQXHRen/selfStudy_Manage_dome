@@ -1,7 +1,7 @@
 <template>
   <div id="channel_wrap">
     <el-form-item>
-      <el-select placeholder="请选择" v-model="selectVal" @change="$emit('change',selectVal)">
+      <el-select placeholder="请选择" v-model="channel_id" @change="$emit('change',channel_id)">
         <el-option value label="全部资讯"></el-option>
         <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id"></el-option>
       </el-select>
@@ -15,8 +15,13 @@ export default {
   data(){
       return{
           options:[],
-          selectVal:""
       }
+  },
+  props:['channel_id']
+  ,
+  model:{
+    prop:"channel_id",
+    event:"change"
   },
   created() {
     this.$axios
