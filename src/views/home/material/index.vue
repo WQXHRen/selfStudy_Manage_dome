@@ -7,7 +7,14 @@
         <el-radio-button label="收藏"></el-radio-button>
       </el-radio-group>
 
-      <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/">
+      <el-upload
+        class="upload-demo"
+        action="http://ttapi.research.itcast.cn/mp/v1_0/user/images"
+        :headers="headers"
+        name="image"
+        :show-file-list="false"
+        :on-success="success"
+      >
         <el-button size="small" type="primary">点击上传</el-button>
       </el-upload>
     </div>
@@ -21,11 +28,15 @@
           </div>
           <div>
             <div class="btnClass">
-                <el-tooltip :content="`${ele.is_collected?'取消收藏':'收藏'}`" placement="top">
-              <el-button type="text" @click="collectPic(ele)" :icon="`el-icon-star-${ele.is_collected?'on':'off'}`"> </el-button>
+              <el-tooltip :content="`${ele.is_collected?'取消收藏':'收藏'}`" placement="top">
+                <el-button
+                  type="text"
+                  @click="collectPic(ele)"
+                  :icon="`el-icon-star-${ele.is_collected?'on':'off'}`"
+                ></el-button>
               </el-tooltip>
               <el-tooltip content="删除" placement="top">
-              <el-button type="text" @click="delPic(ele)" icon="el-icon-delete"> </el-button>
+                <el-button type="text" @click="delPic(ele)" icon="el-icon-delete"></el-button>
               </el-tooltip>
             </div>
           </div>
@@ -33,7 +44,7 @@
       </el-col>
     </el-row>
 
-    <div class="my_pagination" >
+    <div class="my_pagination">
       <el-pagination
         background
         @current-change="changePage"
@@ -51,56 +62,63 @@
 export default {
   data() {
     return {
+      headers: {
+        Authorization: `Bearer ${this.$store.state.form.token}`
+      },
       picType: "全部",
       picList: [],
       total: 1,
-      loading:false,
-      currentPage:1
+      loading: false,
+      currentPage: 1
     };
   },
   created() {
     this.getData();
   },
   methods: {
+    success(){
+       this.getData(this.currentPage);
+       this.$message.success('上传成功!')
+    },
     //   删除图片
-      delPic(ele){
-          this.$axios.delete(`/mp/v1_0/user/images/${ele.id}`)
-          .then(res=>{
-            //   console.log(res);
-              this.$message.success('删除成功!')
-              this.getData(this.currentPage)
-          })
-          .catch(err=>{
-              this.$message.error('删除失败!')
-          })
-      },
+    delPic(ele) {
+      this.$axios
+        .delete(`/mp/v1_0/user/images/${ele.id}`)
+        .then(res => {
+          //   console.log(res);
+          this.$message.success("删除成功!");
+          this.getData(this.currentPage);
+        })
+        .catch(err => {
+          this.$message.error("删除失败!");
+        });
+    },
     //   收藏和取消收藏
-      collectPic(ele){
-          ele.is_collected = !ele.is_collected
-          this.$axios.put(`/mp/v1_0/user/images/${ele.id}`,{
-               collect:ele.is_collected
-          })
-          .then(res=>{
-            //   console.log(res);
-            this.getData()
-          })
-          .catch(err=>{
-
-
-          })
-      },
+    collectPic(ele) {
+      ele.is_collected = !ele.is_collected;
+      this.$axios
+        .put(`/mp/v1_0/user/images/${ele.id}`, {
+          collect: ele.is_collected
+        })
+        .then(res => {
+          //   console.log(res);
+          this.getData();
+        })
+        .catch(err => {});
+    },
 
     //   切换收藏 或全部
-      collectChange(){  
-        this.getData(1);
-      },
+    collectChange() {
+      this.getData(1);
+    },
 
     //   页码改变事件
     changePage(page) {
       this.getData(page);
+      
     },
     getData(page = 1) {
-        this.loading =true;
+      this.loading = true;
       this.$axios
         .get("/mp/v1_0/user/images", {
           params: {
@@ -110,10 +128,10 @@ export default {
           }
         })
         .then(res => {
-        //   console.log(res);
+          //   console.log(res);
           this.picList = res.data.data.results;
           this.total = res.data.data.total_count;
-          this.loading =false;
+          this.loading = false;
         })
         .catch();
     }

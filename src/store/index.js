@@ -6,7 +6,8 @@ const store = new Vuex.Store({
     state: {
         form: {
             name: "",
-            photo: ""
+            photo: "",
+            token:""
         }
     },
     mutations: {
@@ -16,6 +17,9 @@ const store = new Vuex.Store({
             }
             if (obj.photo) {
                 state.form.photo = obj.photo
+            }
+            if (obj.token) {
+                state.form.token = obj.token
             }
 
         }
