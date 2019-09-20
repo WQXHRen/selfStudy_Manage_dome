@@ -19,7 +19,10 @@
 
         <el-row :gutter="20" v-if="form.cover.type>0">
           <el-col v-for="(item,index) in form.cover.type" :span="4">
-            <cover :imgURL="form.cover.images[index]" @coverChange="form.cover.images[index]=$event"></cover>
+            <cover
+              :imgURL="form.cover.images[index]"
+              @coverChange="form.cover.images[index]=$event"
+            ></cover>
           </el-col>
         </el-row>
       </el-form-item>
@@ -106,8 +109,10 @@ export default {
           this.oldform.title = this.form.title;
           this.oldform.content = this.form.content;
           this.oldform.channel_id = this.form.channel_id;
-          this.form.cover.type = bd.data.data.cover.type;
-          this.form.cover.images = bd.data.data.cover.images;
+          this.oldform.cover.type = this.form.cover.type;
+          this.oldform.cover.images[0] = this.form.cover.images[0];
+          this.oldform.cover.images[1] = this.form.cover.images[1];
+          this.oldform.cover.images[2] = this.form.cover.images[2];
         })
         .catch(err => {
           console.log(err);
@@ -118,9 +123,13 @@ export default {
     if (this.$route.name == "edit") {
       this.getData();
     } else {
-      this.oldform.title == this.form.title;
-      this.oldform.content == this.form.content;
-      this.oldform.channel_id == this.form.channel_id;
+      this.oldform.title = this.form.title;
+      this.oldform.content = this.form.content;
+      this.oldform.channel_id = this.form.channel_id;
+      this.oldform.cover.type = this.form.cover.type;
+      this.oldform.cover.images[0] = this.form.cover.images[0];
+      this.oldform.cover.images[1] = this.form.cover.images[1];
+      this.oldform.cover.images[2] = this.form.cover.images[2];
     }
   },
   watch: {
@@ -131,10 +140,18 @@ export default {
         this.form.title = "";
         this.form.content = "";
         this.form.channel_id = "";
+        this.form.cover = {
+          type: 1,
+          images: []
+        };
 
         this.oldform.title = "";
         this.oldform.content = "";
         this.oldform.channel_id = "";
+        this.oldform.cover = {
+          type: 1,
+          images: []
+        };
       }
     }
   },
@@ -142,7 +159,11 @@ export default {
     if (
       this.oldform.title == this.form.title &&
       this.oldform.content == this.form.content &&
-      this.oldform.channel_id == this.form.channel_id
+      this.oldform.channel_id == this.form.channel_id &&
+      this.oldform.cover.type == this.form.cover.type &&
+      this.oldform.cover.images[0] == this.form.cover.images[0] &&
+      this.oldform.cover.images[1] == this.form.cover.images[1] &&
+      this.oldform.cover.images[2] == this.form.cover.images[2]
     ) {
       next();
     } else {
