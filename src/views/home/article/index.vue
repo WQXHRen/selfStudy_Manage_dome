@@ -15,7 +15,7 @@
         <el-form-item label="频道">
           <channel @change="form.channel_id=$event"></channel>
         </el-form-item>
-        
+
         <el-form-item label="时间">
           <el-date-picker
             v-model="form.date"
@@ -64,16 +64,15 @@
       </el-table>
     </template>
     <div class="block">
-      <span class="demonstration">显示总数</span>
-      <el-pagination
-        :disabled="loading"
-        background
-        :page-size="10"
-        layout="total, prev, pager, next"
-        :total="total"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-      ></el-pagination>
+        <el-pagination
+          :disabled="loading"
+          background
+          :page-size="10"
+          layout="total, prev, pager, next"
+          :total="total"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+        ></el-pagination>
     </div>
   </el-card>
 </template>
@@ -108,8 +107,7 @@ export default {
       })
         .then(() => {
           this.$axios
-            .delete(`/mp/v1_0/articles/${id}`
-            )
+            .delete(`/mp/v1_0/articles/${id}`)
             .then(bd => {
               this.$message({
                 type: "success",
@@ -165,8 +163,8 @@ export default {
         .catch(err => {});
     },
     // 跳转到edit
-    toEdit(data){
-      this.$router.push('/edit/'+data.id)
+    toEdit(data) {
+      this.$router.push("/edit/" + data.id);
     }
   },
   filters: {
@@ -201,4 +199,8 @@ export default {
 </script>
 
 <style scoped>
+.block {
+  text-align: center;
+  margin-top: 10px;
+}
 </style>

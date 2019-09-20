@@ -13,6 +13,7 @@ import publish from "../views/home/publish";
 import comment from "../views/home/comment";
 import setting from "../views/home/setting";
 import material from "../views/home/material";
+import graphic  from "../views/home/graphic";
 
 
 
@@ -43,6 +44,9 @@ const routes = [{
         },{
             path:'/material',
             component:material
+        },{
+            path:'/graphic',
+            component:graphic
         }]
     },
     {

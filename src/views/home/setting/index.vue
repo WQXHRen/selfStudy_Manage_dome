@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { userInfo } from 'os';
 export default {
   data() {
     return {
@@ -82,6 +83,10 @@ export default {
         .then(res => {
         //   window.console.log(res);
           this.form.photo=res.data.data.photo;
+          // let useinfo = JSON.parse (window.localStorage.getItem('userInfo'))
+          // userInfo.photo = res.data.data.photo;
+          // userInfo = JSON.stringify(useinfo);
+          // window.localStorage.setItem('userInfo',userInfo);
           this.$store.commit('changeUserInfo',res.data.data)
         })
         .catch();
@@ -93,7 +98,7 @@ export default {
       this.$axios
         .patch("/mp/v1_0/user/profile", this.form)
         .then(res => {
-            // window.console.log(res);
+            window.console.log(res);
           this.$store.commit('changeUserInfo',res.data.data)
           this.$message.success("修改成功!");
         })

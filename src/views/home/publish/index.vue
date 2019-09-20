@@ -10,7 +10,18 @@
       </el-form-item>
 
       <el-form-item label="头像">
-        <p>先占个位置</p>
+        <el-radio-group v-model="form.cover.type">
+          <el-radio :label="1">单图</el-radio>
+          <el-radio :label="3">三图</el-radio>
+          <el-radio :label="0">无图</el-radio>
+          <el-radio :label="-1">自动</el-radio>
+        </el-radio-group>
+
+        <el-row :gutter="20" v-if="form.cover.type>0">
+          <el-col v-for="(item,index) in form.cover.type" :span="4">
+            <cover :imgURL="form.cover.images[index]" @coverChange="form.cover.images[index]=$event"></cover>
+          </el-col>
+        </el-row>
       </el-form-item>
 
       <!-- 频道 -->
@@ -32,6 +43,7 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 import channel from "../../../components/channel/index.vue";
+import cover from "./components/cover";
 
 import { quillEditor } from "vue-quill-editor";
 
@@ -39,7 +51,8 @@ export default {
   name: "publish",
   components: {
     quillEditor,
-    channel
+    channel,
+    cover
   },
   data() {
     return {
@@ -47,7 +60,7 @@ export default {
         title: "",
         channel_id: "",
         cover: {
-          type: 0,
+          type: 1,
           images: []
         },
         content: ""
@@ -83,14 +96,18 @@ export default {
       this.$axios
         .get("/mp/v1_0/articles/" + id)
         .then(bd => {
-          console.log(bd);
+          // console.log(bd);
           this.form.title = bd.data.data.title;
           this.form.content = bd.data.data.content;
           this.form.channel_id = bd.data.data.channel_id;
+          this.form.cover.type = bd.data.data.cover.type;
+          this.form.cover.images = bd.data.data.cover.images;
 
           this.oldform.title = this.form.title;
           this.oldform.content = this.form.content;
           this.oldform.channel_id = this.form.channel_id;
+          this.form.cover.type = bd.data.data.cover.type;
+          this.form.cover.images = bd.data.data.cover.images;
         })
         .catch(err => {
           console.log(err);
@@ -98,7 +115,13 @@ export default {
     }
   },
   created() {
-    this.getData();
+    if (this.$route.name == "edit") {
+      this.getData();
+    } else {
+      this.oldform.title == this.form.title;
+      this.oldform.content == this.form.content;
+      this.oldform.channel_id == this.form.channel_id;
+    }
   },
   watch: {
     "$route.params.id"() {

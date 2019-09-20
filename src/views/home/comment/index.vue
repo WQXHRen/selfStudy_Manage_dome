@@ -23,15 +23,17 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
-      @size-change="pageSize"
-      @current-change="handleCurrentChange"
-      :current-page="currentPage"
-      :page-sizes="[10, 20, 30, 40]"
-      :page-size="10"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total"
-    ></el-pagination>
+    <div class="pagination">
+      <el-pagination
+        @size-change="pageSize"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="10"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      ></el-pagination>
+    </div>
   </div>
 </template>
 
@@ -49,7 +51,7 @@ export default {
     handleCurrentChange(nowPage) {
       this.getData(nowPage);
     },
-    pageSize(pageSize){
+    pageSize(pageSize) {
       this.per_page = pageSize;
       this.getData();
     },
@@ -93,4 +95,7 @@ export default {
 </script>
 
 <style>
+.pagination{
+  text-align: center;
+}
 </style>
