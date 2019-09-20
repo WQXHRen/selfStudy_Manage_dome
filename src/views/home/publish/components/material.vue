@@ -38,12 +38,17 @@
 <script>
 export default {
   name: "material",
+  props:["currentUrl"],
+  model:{
+    prop:"currentUrl",
+    event:"toCurrentUrl"
+  },
   data() {
     return {
       headers: {
         Authorization: `Bearer ${this.$store.state.form.token}`
       },
-      currentUrl: "",
+      // currentUrl: "",
       picType: "全部",
       picList: [],
       total: 1,

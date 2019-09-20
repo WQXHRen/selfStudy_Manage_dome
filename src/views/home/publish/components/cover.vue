@@ -3,7 +3,7 @@
     <div class="wrap" @click="showDialog">
       <span v-if="!imgURL">点击选择图片</span>
       <i v-if="!imgURL" class="el-icon-plus"></i>
-      <img width="200px" height="200px" :src="imgURL" alt v-if="imgURL"/>
+      <img width="200px" height="200px" :src="imgURL" v-if="imgURL"/>
     </div>
 
     <el-dialog title="上传头像" :visible.sync="dialogVisible" width="50%">
@@ -25,7 +25,7 @@
 
         <el-tab-pane label="素材库" name="sucaiku">
           <!-- 素材库 -->
-          <material @toCurrentUrl ="imageUrl = $event"></material>
+          <material :currentUrl="imageUrl" @toCurrentUrl ="imageUrl = $event"></material>
         </el-tab-pane>
       </el-tabs>
 

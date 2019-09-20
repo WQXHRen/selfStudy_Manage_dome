@@ -117,8 +117,10 @@ export default {
 .aside {
   overflow: hidden;
   .leftContainer {
+    overflow: hidden;
     height: 100%;
     .leftHeader {
+      overflow: hidden;
       background-color: #2e2f32;
       display: flex;
       justify-content: center;
@@ -131,6 +133,9 @@ export default {
       overflow: hidden;
       padding: 0;
       background-color: #323745;
+      .el-menu-vertical-demo{
+        border-right: none;
+      }
       span {
         color: #fff;
       }
@@ -156,7 +161,7 @@ export default {
   }
   .rightMain {
     background-color: white;
-    padding: 0px;
+    // padding: 10px;
   }
 }
 </style>
