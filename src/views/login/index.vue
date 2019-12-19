@@ -2,7 +2,6 @@
   <div id="login">
     <div class="form-wrap">
       <div class="header">
-        <img src="./images/login_logo.png" alt />
       </div>
 
       <el-form :model="ruleForm" :rules="rules" ref="loginForm" class="demo-ruleForm">
