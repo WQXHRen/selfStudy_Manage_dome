@@ -14,6 +14,7 @@ import comment from "../views/home/comment";
 import setting from "../views/home/setting";
 import material from "../views/home/material";
 import graphic  from "../views/home/graphic";
+import test from "../views/home/test";
 
 
 
@@ -47,6 +48,9 @@ const routes = [{
         },{
             path:'/graphic',
             component:graphic
+        },{
+            path:'/test',
+            component:test
         }]
     },
     {

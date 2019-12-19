@@ -74,7 +74,7 @@ export default {
     },
     //   上传成功钩子
     uploadSuccess(res){
-        window.console.log(res)
+        // window.console.log(res)
         this.imageUrl = res.data.url
     },
 

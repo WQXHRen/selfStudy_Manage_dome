@@ -2,12 +2,15 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router/index.js'
 import store from './store/'
+import echarts from 'echarts'
 
 import './assets/base.css'
+import './assets/iconfont/iconfont.css'
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
+
 Vue.config.productionTip = false
 
 import axios from 'axios'
@@ -73,6 +76,7 @@ axios.interceptors.response.use(function (response) {
 
 
 Vue.prototype.$axios = axios
+Vue.prototype.$echarts = echarts
 
 
 new Vue({
